@@ -16,13 +16,13 @@
 
 2. **克隆仓库**：将代码仓库克隆到本地。
    ```
-   git clone https://github.com/your-username/chatgpt-agent.git  # 替换为实际仓库地址
-   cd chatgpt-agent
+   git clone https://github.com/GoldBro233/GPTAgentCLI-Go.git  # 替换为实际仓库地址
+   cd GPTAgentCLI-Go
    ```
 
 3. **安装依赖包**：该程序依赖于外部库，如 `github.com/spf13/cobra`。使用Go模块安装：
    ```
-   go mod init chatgpt-agent  # 如果还没有go.mod文件
+   go mod init gpt-agent-cli-go  # 如果还没有go.mod文件
    go mod tidy  # 下载并整理依赖
    ```
 
@@ -96,37 +96,11 @@ chat-agent [query] [flags]
 本节针对开发者，提供代码结构概述、修改建议和扩展方法。如果您想扩展该工具（如添加新提供者或功能），可以基于此进行开发。
 
 ### 代码结构
+
 - **main.go**：入口文件，包含主函数和Cobra命令定义。
   - `var` 声明：定义了全局变量，如 `apiKey`、`provider`、`model` 和 `question`。
   - `main()` 函数：设置Cobra命令，处理输入逻辑和API调用。
   - API调用逻辑：位于 `Run` 函数中，处理Grok API请求（当前仅支持Grok，可扩展）。
 - **依赖**：使用 `github.com/spf13/cobra` 进行CLI管理，`net/http` 和 `encoding/json` 处理API交互。
-
-### 开发步骤
-1. **设置开发环境**：确保安装Go和依赖（如上文所述）。使用VS Code或其他IDE打开项目。
-
-2. **添加新功能**：
-   - **支持新提供者**：在 `Run` 函数中扩展 `if provider == "grok"` 块，例如添加 `else if provider == "chatgpt"`，并修改URL和Payload。
-     ```go
-     if provider == "grok" {
-         // 当前逻辑
-     } else if provider == "chatgpt" {
-         url := "https://api.openai.com/v1/chat/completions"
-         // 相应修改
-     }
-     ```
-   - **修改查询逻辑**：`Run` 函数中的查询获取部分可以进一步自定义，例如添加更多输入源。
-   - **错误处理和日志**：添加更多日志输出或错误检查，使用 `log` 包。
-
-3. **测试建议**：
-   - **单元测试**：编写测试函数，例如测试API调用逻辑（使用Go的 `testing` 包）。
-   - **运行测试**：使用 `go test ./...`。
-   - **调试**：在命令行运行程序时，使用 `--help` 查看标志，或添加print语句调试输入。
-
-4. **最佳实践**：
-   - **代码风格**：遵循Go的规范，使用 `go fmt` 格式化代码。
-   - **版本控制**：使用Git管理代码变更。
-   - **安全**：避免硬编码敏感信息，如API密钥。
-   - **扩展**：如果需要更多功能（如支持文件上传），可以添加新命令或库（如 `os` 处理文件）。
 
 如果您对代码有任何修改或扩展需求，请参考Go官方文档或Cobra文档。欢迎通过Pull Request贡献代码！
